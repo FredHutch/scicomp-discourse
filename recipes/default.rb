@@ -37,3 +37,8 @@ template '/var/discourse/containers/app.yml' do
   group 'root'
   mode '0644'
 end
+
+docker_service 'default' do
+  host ['unix:///var/run/docker.sock']
+  action [:create, :start]
+end
