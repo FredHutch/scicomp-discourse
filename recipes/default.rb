@@ -31,11 +31,18 @@ directory '/var/discourse/containers' do
   action :create
 end
 
+execute 'launcher-bootstrap' do
+  command './launcher bootstrap app'
+  cwd '/var/discourse'
+  action :nothing
+end
+
 template '/var/discourse/containers/app.yml' do
   source 'app.yml.erb'
   owner 'root'
   group 'root'
   mode '0644'
+  notifies :run, 'execute[launcher-bootstrap]', :delayed
 end
 
 docker_service 'default' do
